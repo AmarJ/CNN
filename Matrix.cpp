@@ -1,5 +1,6 @@
 #include "Matrix.h"
 #include <sstream>
+#include <stdexcept>
 
 using namespace std;
 
@@ -36,10 +37,12 @@ int Matrix::getIndexValue(int i, int j) const
 
 int Matrix::multiply(Matrix &other) const
 {
+	//cout << "HEIGHT: " << height << " HEIGHT2: " << other.getHeight() << endl; 
+
 	if (height != other.getHeight())
-		throw "Heights of matrices are not the same.";
+		throw logic_error("Heights of matrices are not the same.");
 	if (width != other.getWidth())
-		throw "Width of matrices are not the same.";
+		throw logic_error("Width of matrices are not the same.");
 
 	int sum = 0;
 

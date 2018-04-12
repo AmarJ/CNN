@@ -9,13 +9,13 @@ class Matrix
 public:
 	Matrix();
 	Matrix(int height, int width);
-	Matrix(std::vector<std::vector<double>> const &array);
+	Matrix(std::vector<std::vector<double>> const &array);	
+	std::vector<std::vector<double>> array;
 	int getIndexValue(int i, int j) const;
 	int getHeight() const;
 	int getWidth() const;
 	int multiply(Matrix &other) const;
 private:
-	std::vector<std::vector<double>> array;
 	int height;
 	int width;
 };
