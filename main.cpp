@@ -54,10 +54,10 @@ Matrix convolution(Matrix conv_layer, Matrix filter, int stride, int bias)
 	vector<vector<double>> output_layer;
 
 	//goes through matrix and performs dot product on small local regions 
-	for (int i=0; i<conv_layer.getHeight(); i+=stride){
+	for (int i=0; i<conv_layer.getHeight() && i+stride<W; i+=stride){
 		
 		vector<double> row_output_layer;
-		for (int j=0; j<conv_layer.getWidth(); j+=stride){
+		for (int j=0; j<conv_layer.getWidth() && j+stride<W; j+=stride){
 
 			vector<vector<double>> local_region;
 			cout << "-----------------------------------" << endl; 				
@@ -65,6 +65,7 @@ Matrix convolution(Matrix conv_layer, Matrix filter, int stride, int bias)
 			for (int y=i; y<i+F; y++){
 				vector<double> row_local_region;
 				for (int x=j; x<j+F; x++){
+					//cout << j+F << "] Insterting: (" <<  y << ", " << x << ") value: " << conv_layer.getIndexValue(y, x) << endl;
 					row_local_region.push_back(conv_layer.getIndexValue(y, x));
 				}
 				local_region.push_back(row_local_region);
