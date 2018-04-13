@@ -1,7 +1,5 @@
 #include <iostream>
 #include <vector>
-#include <stdlib.h>
-#include <time.h>
 #include <cmath>
 #include <fstream>
 #include <sstream>
@@ -79,7 +77,7 @@ Matrix convolution(Volume conv_layer, Volume filter, int stride, int bias)
 	//temporarily adding blank matrix to first layer -- will fix later
 	Matrix result = Matrix(output_size, output_size);
 	for (int i=0; i<conv_layer.getDepth(); i++){
-		result.add( *convolution(conv_layer.getLayer(i), filter.getLayer(i), stride, bias) );
+		result.add( convolution(conv_layer.getLayer(i), filter.getLayer(i), stride, bias) );
 	}
 }
 
@@ -96,7 +94,7 @@ int main(int argc, char* argv[])
 	filter_1.addLayer(createMatrixFromFile("layers/3_filter_3X3"));
 
 	Matrix RESULT_1 = convolution(conv_layer_1, filter_1, 2, 0); 
-	printVec(RESULT_1.array);
+	RESULT_1.print();
 
 	return 0;
 }	

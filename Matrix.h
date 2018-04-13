@@ -20,7 +20,7 @@ public:
 	int getWidth() const;
 	int dotProduct(Matrix &other) const;
 	void checkIfEqual(Matrix &other) const;
-	void add(Matrix &other);
+	void add(Matrix other);
 	void print() const;
 private:
 	int height;

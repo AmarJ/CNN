@@ -22,12 +22,12 @@ Volume::Volume(vector<Matrix> const &layers)
 	this->layers = layers;
 }
 
-int Matrix::getHeight() const
+int Volume::getHeight() const
 {   
     return height;
 }       
         
-int Matrix::getWidth() const
+int Volume::getWidth() const
 {           
     return width;
 }
@@ -37,7 +37,7 @@ int Volume::getDepth() const
 	return depth;
 }
 
-void Volume::addLayer(Matrix &layer)
+void Volume::addLayer(Matrix layer)
 {
 	layers.push_back(layer);
 	depth++;

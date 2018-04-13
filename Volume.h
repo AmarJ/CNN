@@ -18,7 +18,7 @@ public:
 	int getDepth() const;
 	int getHeight() const;
 	int getWidth() const;
-	void addLayer(Matrix &layer);
+	void addLayer(Matrix layer);
 	Matrix getLayer(int index) const;
 private:
 	int height;

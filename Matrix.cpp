@@ -59,7 +59,7 @@ int Matrix::dotProduct(Matrix &other) const
 	return product;
 }
 
-void Matrix::add(Matrix &other)
+void Matrix::add(Matrix other)
 {
 	checkIfEqual(other);
 
