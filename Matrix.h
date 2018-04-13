@@ -12,8 +12,8 @@ public:
 	Matrix(std::vector<std::vector<double>> const &array);	
 	
 	//2D vector stores matrix
-	std::vector<std::vector<double>> array;
-	
+	std::vector<std::vector<double>> matrix;
+
 	//functions
 	int getIndexValue(int i, int j) const;
 	int getHeight() const;
@@ -22,6 +22,7 @@ public:
 	void checkIfEqual(Matrix &other) const;
 	void add(Matrix other);
 	void print() const;
+	Matrix kernel_slide(Matrix filter, int stride, int bias);
 private:
 	int height;
 	int width;

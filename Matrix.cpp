@@ -10,14 +10,14 @@ Matrix::Matrix(int height, int width)
 {
 	this->height = height;
 	this->width = width;
-	this->array = vector<vector<double>> (height, vector<double>(width));
+	this->matrix = vector<vector<double>> (height, vector<double>(width));
 }
 
-Matrix::Matrix(vector<vector<double>> const &array)
+Matrix::Matrix(vector<vector<double>> const &matrix)
 {
-	this->height = array.size();
-	this->width = array[0].size();
-	this->array = array;
+	this->height = matrix.size();
+	this->width = matrix[0].size();
+	this->matrix = matrix;
 }
 
 int Matrix::getHeight() const
@@ -32,7 +32,7 @@ int Matrix::getWidth() const
 
 int Matrix::getIndexValue(int i, int j) const
 {
-	return array[i][j];
+	return matrix[i][j];
 }
 
 void Matrix::checkIfEqual(Matrix &other) const
@@ -45,14 +45,13 @@ void Matrix::checkIfEqual(Matrix &other) const
 
 int Matrix::dotProduct(Matrix &other) const
 {
-
 	checkIfEqual(other);
 
 	int product = 0;
 
 	for (int i=0; i<height; i++){
 		for (int j=0; j<width; j++){
-			product += (array[i][j] * other.getIndexValue(i, j));
+			product += (matrix[i][j] * other.getIndexValue(i, j));
 		}
 	}
 
@@ -68,21 +67,59 @@ void Matrix::add(Matrix other)
 	for (int i=0; i<height; i++){
 		vector<double> row_result;
 		for (int j=0; j<width; j++){
-			row_result.push_back( array[i][j] + other.getIndexValue(i, j));
+			row_result.push_back( matrix[i][j] + other.getIndexValue(i, j));
 		}
 		result.push_back(row_result);
 	}
 
-	array = result;
+	matrix = result;
+}
+
+Matrix Matrix::kernel_slide(Matrix filter, int stride, int bias)
+{
+	int F = filter.getWidth();
+	int output_size = (((width-F)/stride)+1);
+	
+	//checking if output Matrix will have size greater than 1
+	if (output_size < 1)
+		throw logic_error("Invalid: Output matrix size 0.");
+	
+	vector<vector<double>> output_layer;
+
+	//goes through matrix and performs dot product on small local regions 
+	for (int i=0; i<height && i+stride<height; i+=stride){
+		
+		vector<double> row_output_layer;
+		for (int j=0; j<width && j+stride<width; j+=stride){
+
+			vector<vector<double>> local_region;
+			//disgusting I know... creates a local region
+			for (int y=i; y<i+F; y++){
+				vector<double> row_local_region;
+				for (int x=j; x<j+F; x++){
+					//gets row of local region
+					row_local_region.push_back(matrix[y][x]); 
+				}
+				//adds row of local region to local_region matrix
+				local_region.push_back(row_local_region);
+			}
+			//adds dot product of local region and filter to row of output  
+			row_output_layer.push_back( Matrix(local_region).dotProduct(filter) );
+		}
+		//adds row of output to output layer matrix
+		output_layer.push_back(row_output_layer);
+	}
+	Matrix output = Matrix(output_layer);
+	
+	return output;
 }
 
 void Matrix::print() const
 {
 	for (int i = 0; i < height; i++){
     	for (int j = 0; j < width; j++){
-        	cout << array[i][j] << ' ';
+        	cout << matrix[i][j] << ' ';
     	}
 		cout << endl;
 	}
 }
-

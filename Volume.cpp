@@ -1,4 +1,5 @@
 #include <vector>
+#include <stdexcept>
 #include "Volume.h"
 #include "Matrix.h"
 
@@ -48,3 +49,23 @@ Matrix Volume::getLayer(int index) const
 	return layers[index];
 }
 
+Matrix Volume::convolution(Volume filter, int stride, int bias)
+{
+	int F = filter.getWidth();
+	int output_size = (((width-F)/stride)+1);
+	
+	if (output_size < 1)
+        throw logic_error("Invalid: Output matrix size 0.");	
+
+	//temporarily doing addition of blank matrix in first iteration -- will fix later
+	Matrix result = Matrix(output_size, output_size);
+	for (int i=0; i<depth; i++){
+		result.add(layers[i].kernel_slide(filter.getLayer(i), stride, bias));
+	}
+
+	if (bias > 0) {
+		vector<vector<double>> bias_filter(output_size, vector<double>(output_size, bias));
+		result.add(bias_filter);
+	}
+	return result;
+}

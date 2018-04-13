@@ -20,6 +20,7 @@ public:
 	int getWidth() const;
 	void addLayer(Matrix layer);
 	Matrix getLayer(int index) const;
+	Matrix convolution(Volume filter, int stride, int bias);
 private:
 	int height;
 	int width;
