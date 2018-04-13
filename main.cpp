@@ -12,7 +12,7 @@ using namespace std;
 
 Matrix createMatrixFromFile(string filename)
 {
-	vector<vector<double> > array;
+	vector<vector<double> > matrix;
 	ifstream inputFile(filename);
 	string temp;
 	
@@ -21,10 +21,10 @@ Matrix createMatrixFromFile(string filename)
 		
 		vector<double> line{istream_iterator<double>(buffer), istream_iterator<double>()};
 		
-		array.push_back(line);
+		matrix.push_back(line);
 	}
 
-	return Matrix(array);	
+	return Matrix(matrix);	
 }	
 
 int main(int argc, char* argv[])
@@ -34,13 +34,13 @@ int main(int argc, char* argv[])
 	conv_layer_1.addLayer(createMatrixFromFile("layers/2_input_layer_7X7"));
 	conv_layer_1.addLayer(createMatrixFromFile("layers/3_input_layer_7X7"));
 
-	Volume filter_1 = Volume(3, 3);
-	filter_1.addLayer(createMatrixFromFile("layers/W0/1_filter_3X3"));
-	filter_1.addLayer(createMatrixFromFile("layers/W0/2_filter_3X3"));
-	filter_1.addLayer(createMatrixFromFile("layers/W0/3_filter_3X3"));
+	Volume kernel_1 = Volume(3, 3);
+	kernel_1.addLayer(createMatrixFromFile("layers/W0/1_filter_3X3"));
+	kernel_1.addLayer(createMatrixFromFile("layers/W0/2_filter_3X3"));
+	kernel_1.addLayer(createMatrixFromFile("layers/W0/3_filter_3X3"));
 
-	Matrix OUTPUT = conv_layer_1.convolution(filter_1, 2, 1); 
-	OUTPUT.print();
+	Matrix activiation_map = conv_layer_1.convolution(kernel_1, 2, 1); 
+	activation_map.print();
 	cout << "done" << endl;
 	return 0;
 }	

@@ -75,7 +75,7 @@ void Matrix::add(Matrix other)
 	matrix = result;
 }
 
-Matrix Matrix::kernel_slide(Matrix filter, int stride, int bias)
+Matrix Matrix::filter_slide(Matrix filter, int stride, int bias)
 {
 	int F = filter.getWidth();
 	int output_size = (((width-F)/stride)+1);

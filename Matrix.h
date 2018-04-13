@@ -22,7 +22,7 @@ public:
 	void checkIfEqual(Matrix &other) const;
 	void add(Matrix other);
 	void print() const;
-	Matrix kernel_slide(Matrix filter, int stride, int bias);
+	Matrix filter_slide(Matrix filter, int stride, int bias);
 private:
 	int height;
 	int width;

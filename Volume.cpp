@@ -60,7 +60,7 @@ Matrix Volume::convolution(Volume filter, int stride, int bias)
 	//temporarily doing addition of blank matrix in first iteration -- will fix later
 	Matrix result = Matrix(output_size, output_size);
 	for (int i=0; i<depth; i++){
-		result.add(layers[i].kernel_slide(filter.getLayer(i), stride, bias));
+		result.add(layers[i].filter_slide(filter.getLayer(i), stride, bias));
 	}
 
 	if (bias > 0) {
