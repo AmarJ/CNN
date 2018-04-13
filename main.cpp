@@ -39,7 +39,7 @@ int main(int argc, char* argv[])
 	kernel_1.addLayer(createMatrixFromFile("layers/W0/2_filter_3X3"));
 	kernel_1.addLayer(createMatrixFromFile("layers/W0/3_filter_3X3"));
 
-	Matrix activiation_map = conv_layer_1.convolution(kernel_1, 2, 1); 
+	Matrix activation_map = conv_layer_1.convolution(kernel_1, 2, 1); 
 	activation_map.print();
 	cout << "done" << endl;
 	return 0;
