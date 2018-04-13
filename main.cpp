@@ -8,6 +8,7 @@
 #include <iterator>
 #include <stdexcept>
 #include "Matrix.h"
+#include "Volume.h"
 
 using namespace std;
 
@@ -28,25 +29,13 @@ Matrix createMatrixFromFile(string filename)
 	return Matrix(array);	
 }	
 
-void printVec(vector<vector<double>> vec)
-{
-	//cout << "here\n" << endl; 
-	for (int i = 0; i < vec.size(); i++){
-    	for (int j = 0; j < vec[i].size(); j++){
-        	cout << vec[i][j] << ' ';
-    	}
-		cout << endl;
-	}
-}	
-
+//convolution performed on matrix with given filter
 Matrix convolution(Matrix conv_layer, Matrix filter, int stride, int bias)
 {
 	int W = conv_layer.getWidth();
 	int F = filter.getWidth();
 	int output_size = (((W-F)/stride)+1);
 	
-	printVec(conv_layer.array);
-
 	//checking if output Matrix will have size greater than 1
 	if (output_size < 1)
 		throw logic_error("Invalid: Output matrix size 0.");
@@ -60,35 +49,54 @@ Matrix convolution(Matrix conv_layer, Matrix filter, int stride, int bias)
 		for (int j=0; j<conv_layer.getWidth() && j+stride<W; j+=stride){
 
 			vector<vector<double>> local_region;
-			cout << "-----------------------------------" << endl; 				
 			//disgusting I know... creates a local region
 			for (int y=i; y<i+F; y++){
 				vector<double> row_local_region;
 				for (int x=j; x<j+F; x++){
-					//cout << j+F << "] Insterting: (" <<  y << ", " << x << ") value: " << conv_layer.getIndexValue(y, x) << endl;
 					row_local_region.push_back(conv_layer.getIndexValue(y, x));
 				}
 				local_region.push_back(row_local_region);
 			}
-			printVec(local_region);
-			//int answ = Matrix(local_region).multiply(filter);
-			//cout << answ << endl;
-			row_output_layer.push_back( Matrix(local_region).multiply(filter) );
+			row_output_layer.push_back( Matrix(local_region).dotProduct(filter) );
 		}	
 		output_layer.push_back(row_output_layer);
 	}
-
 	Matrix output = Matrix(output_layer);
 	
 	return output;
 }
 
+//convolution performed on volume of matrices with volume of filters
+Matrix convolution(Volume conv_layer, Volume filter, int stride, int bias)
+{
+	int W = conv_layer.getWidth();
+	int F = filter.getWidth();
+	int output_size = (((W-F)/stride)+1);
+	
+	if (output_size < 1)
+        throw logic_error("Invalid: Output matrix size 0.");	
+
+	//temporarily adding blank matrix to first layer -- will fix later
+	Matrix result = Matrix(output_size, output_size);
+	for (int i=0; i<conv_layer.getDepth(); i++){
+		result.add( *convolution(conv_layer.getLayer(i), filter.getLayer(i), stride, bias) );
+	}
+}
+
 int main(int argc, char* argv[])
 {
-	Matrix X1 = createMatrixFromFile("layers/input_layer_7X7");
-	Matrix F1 = createMatrixFromFile("layers/filter_3X3");
+	Volume conv_layer_1 = Volume(7, 7);
+	conv_layer_1.addLayer(createMatrixFromFile("layers/1_input_layer_7X7"));
+	conv_layer_1.addLayer(createMatrixFromFile("layers/2_input_layer_7X7"));
+	conv_layer_1.addLayer(createMatrixFromFile("layers/3_input_layer_7X7"));
 
-	Matrix RESULT = convolution(X1, F1, 2, 0);	
+	Volume filter_1 = Volume(3, 3);
+	filter_1.addLayer(createMatrixFromFile("layers/1_filter_3X3"));
+	filter_1.addLayer(createMatrixFromFile("layers/2_filter_3X3"));
+	filter_1.addLayer(createMatrixFromFile("layers/3_filter_3X3"));
+
+	Matrix RESULT_1 = convolution(conv_layer_1, filter_1, 2, 0); 
+	printVec(RESULT_1.array);
 
 	return 0;
 }	

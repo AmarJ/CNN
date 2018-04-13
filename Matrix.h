@@ -10,11 +10,18 @@ public:
 	Matrix();
 	Matrix(int height, int width);
 	Matrix(std::vector<std::vector<double>> const &array);	
+	
+	//2D vector stores matrix
 	std::vector<std::vector<double>> array;
+	
+	//functions
 	int getIndexValue(int i, int j) const;
 	int getHeight() const;
 	int getWidth() const;
-	int multiply(Matrix &other) const;
+	int dotProduct(Matrix &other) const;
+	void checkIfEqual(Matrix &other) const;
+	void add(Matrix &other);
+	void print() const;
 private:
 	int height;
 	int width;

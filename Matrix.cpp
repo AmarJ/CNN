@@ -35,22 +35,54 @@ int Matrix::getIndexValue(int i, int j) const
 	return array[i][j];
 }
 
-int Matrix::multiply(Matrix &other) const
+void Matrix::checkIfEqual(Matrix &other) const
 {
-	//cout << "HEIGHT: " << height << " HEIGHT2: " << other.getHeight() << endl; 
-
 	if (height != other.getHeight())
 		throw logic_error("Heights of matrices are not the same.");
 	if (width != other.getWidth())
 		throw logic_error("Width of matrices are not the same.");
+}
 
-	int sum = 0;
+int Matrix::dotProduct(Matrix &other) const
+{
+
+	checkIfEqual(other);
+
+	int product = 0;
 
 	for (int i=0; i<height; i++){
 		for (int j=0; j<width; j++){
-			sum += (array[i][j] * other.getIndexValue(i, j));
+			product += (array[i][j] * other.getIndexValue(i, j));
 		}
 	}
 
-	return sum;
+	return product;
 }
+
+void Matrix::add(Matrix &other)
+{
+	checkIfEqual(other);
+
+	vector<vector<double>> result; 
+
+	for (int i=0; i<height; i++){
+		vector<double> row_result;
+		for (int j=0; j<width; j++){
+			row_result.push_back( array[i][j] + other.getIndexValue(i, j));
+		}
+		result.push_back(row_result);
+	}
+
+	array = result;
+}
+
+void Matrix::print() const
+{
+	for (int i = 0; i < height; i++){
+    	for (int j = 0; j < width; j++){
+        	cout << array[i][j] << ' ';
+    	}
+		cout << endl;
+	}
+}
+

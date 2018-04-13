@@ -9,10 +9,17 @@ class Volume
 {
 public:
 	Volume();
+	Volume(int height, int width);
 	Volume(std::vector<Matrix> const &layers);
 
 	//vector storing matrices (3D volume of matrices)
 	std::vector<Matrix> layers;
+
+	int getDepth() const;
+	int getHeight() const;
+	int getWidth() const;
+	void addLayer(Matrix &layer);
+	Matrix getLayer(int index) const;
 private:
 	int height;
 	int width;
