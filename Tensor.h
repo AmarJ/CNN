@@ -5,12 +5,12 @@
 #include <iostream>
 #include "Matrix.h"
 
-class Volume
+class Tensor
 {
 public:
-	Volume();
-	Volume(int height, int width);
-	Volume(std::vector<Matrix> const &layers);
+	Tensor();
+	Tensor(int height, int width);
+	Tensor(std::vector<Matrix> const &layers);
 
 	//vector storing matrices (3D volume of matrices)
 	std::vector<Matrix> layers;
@@ -21,7 +21,7 @@ public:
 	virtual void addLayer(Matrix layer);
 	void init_random_values();
 	virtual Matrix getLayer(int index) const;
-	virtual Matrix convolution(Volume filter, int stride, int bias);
+	virtual Matrix convolution(Tensor filter, int stride, int bias);
 protected:
 	int height;
 	int width;

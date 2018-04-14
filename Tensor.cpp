@@ -1,11 +1,11 @@
 #include <vector>
-#include "Volume.h"
+#include "Tensor.h"
 
 using namespace std;
 
-Volume::Volume(){}
+Tensor::Tensor(){}
 
-Volume::Volume(int height, int width)
+Tensor::Tensor(int height, int width)
 {
 	this->height = height;
 	this->width = width;
@@ -13,7 +13,7 @@ Volume::Volume(int height, int width)
 	this->layers = vector<Matrix> (depth);
 }
 
-Volume::Volume(vector<Matrix> const &layers)
+Tensor::Tensor(vector<Matrix> const &layers)
 {
 	this->height = layers[0].getHeight();
 	this->width = layers[0].getWidth();
@@ -21,33 +21,33 @@ Volume::Volume(vector<Matrix> const &layers)
 	this->layers = layers;
 }
 
-int Volume::getHeight() const
+int Tensor::getHeight() const
 {   
     return height;
 }       
         
-int Volume::getWidth() const
+int Tensor::getWidth() const
 {           
     return width;
 }
 
-int Volume::getDepth() const
+int Tensor::getDepth() const
 {
 	return depth;
 }
 
-void Volume::addLayer(Matrix layer)
+void Tensor::addLayer(Matrix layer)
 {
 	layers.push_back(layer);
 	depth++;
 }
 
-Matrix Volume::getLayer(int index) const
+Matrix Tensor::getLayer(int index) const
 {
 	return layers[index];
 }
 
-void Volume::init_random_values()
+void Tensor::init_random_values()
 {
 	for (int i=0; i<depth; i++){
 		for (int y=0; y<height; y++){
@@ -58,7 +58,7 @@ void Volume::init_random_values()
 	}
 }
 
-Matrix Volume::convolution(Volume filter, int stride, int bias)
+Matrix Tensor::convolution(Tensor filter, int stride, int bias)
 {
 	int F = filter.getWidth();
 	int output_size = (((width-F)/stride)+1);
