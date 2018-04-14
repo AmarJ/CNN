@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include "Matrix.h"
 #include "Volume.h"
+#include "Filter.h"
 
 using namespace std;
 
@@ -39,7 +40,9 @@ int main(int argc, char* argv[])
 	kernel_1.addLayer(createMatrixFromFile("layers/W0/2_filter_3X3"));
 	kernel_1.addLayer(createMatrixFromFile("layers/W0/3_filter_3X3"));
 
-	Matrix activation_map = conv_layer_1.convolution(kernel_1, 2, 1); 
+	Filter kernel_2 = Filter(3, 3, 3);
+
+	Matrix activation_map = conv_layer_1.convolution(kernel_2, 2, 1); 
 	activation_map.print();
 	cout << "done" << endl;
 	return 0;

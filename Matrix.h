@@ -22,6 +22,7 @@ public:
 	void checkIfEqual(Matrix &other) const;
 	void add(Matrix other);
 	void print() const;
+	void setIndexValue(int i, int j, int value);
 	Matrix filter_slide(Matrix filter, int stride, int bias);
 private:
 	int height;

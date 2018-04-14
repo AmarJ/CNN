@@ -35,6 +35,11 @@ int Matrix::getIndexValue(int i, int j) const
 	return matrix[i][j];
 }
 
+void Matrix::setIndexValue(int i, int j, int value) 
+{
+	matrix[i][j] = value;
+}
+
 void Matrix::checkIfEqual(Matrix &other) const
 {
 	if (height != other.getHeight())

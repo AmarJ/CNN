@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 #include "Matrix.h"
+#include "Filter.h"
 
 class Volume
 {
@@ -20,7 +21,7 @@ public:
 	int getWidth() const;
 	void addLayer(Matrix layer);
 	Matrix getLayer(int index) const;
-	Matrix convolution(Volume filter, int stride, int bias);
+	Matrix convolution(Filter filter, int stride, int bias);
 protected:
 	int height;
 	int width;

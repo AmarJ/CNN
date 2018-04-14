@@ -49,7 +49,7 @@ Matrix Volume::getLayer(int index) const
 	return layers[index];
 }
 
-Matrix Volume::convolution(Volume filter, int stride, int bias)
+Matrix Volume::convolution(Filter filter, int stride, int bias)
 {
 	int F = filter.getWidth();
 	int output_size = (((width-F)/stride)+1);
