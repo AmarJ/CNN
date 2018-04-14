@@ -1,6 +1,4 @@
 #include "Matrix.h"
-#include <sstream>
-#include <stdexcept>
 
 using namespace std;
 

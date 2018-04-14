@@ -1,7 +1,5 @@
 #include <vector>
-#include <stdexcept>
 #include "Volume.h"
-#include "Matrix.h"
 
 using namespace std;
 
@@ -49,7 +47,18 @@ Matrix Volume::getLayer(int index) const
 	return layers[index];
 }
 
-Matrix Volume::convolution(Filter filter, int stride, int bias)
+void Volume::init_random_values()
+{
+	for (int i=0; i<depth; i++){
+		for (int y=0; y<height; y++){
+			for (int x=0; x<width; x++){
+				layers[i].setIndexValue(y, x, (rand() % 1 - 1));
+			}
+		}
+	}
+}
+
+Matrix Volume::convolution(Volume filter, int stride, int bias)
 {
 	int F = filter.getWidth();
 	int output_size = (((width-F)/stride)+1);

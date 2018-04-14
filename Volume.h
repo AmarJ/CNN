@@ -4,7 +4,6 @@
 #include <vector>
 #include <iostream>
 #include "Matrix.h"
-#include "Filter.h"
 
 class Volume
 {
@@ -16,12 +15,13 @@ public:
 	//vector storing matrices (3D volume of matrices)
 	std::vector<Matrix> layers;
 
-	int getDepth() const;
-	int getHeight() const;
-	int getWidth() const;
-	void addLayer(Matrix layer);
-	Matrix getLayer(int index) const;
-	Matrix convolution(Filter filter, int stride, int bias);
+	virtual int getDepth() const;
+	virtual int getHeight() const;
+	virtual int getWidth() const;
+	virtual void addLayer(Matrix layer);
+	void init_random_values();
+	virtual Matrix getLayer(int index) const;
+	virtual Matrix convolution(Volume filter, int stride, int bias);
 protected:
 	int height;
 	int width;
