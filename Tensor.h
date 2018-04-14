@@ -10,6 +10,7 @@ class Tensor
 public:
 	Tensor();
 	Tensor(int height, int width);
+	Tensor(int height, int width, int depth);
 	Tensor(std::vector<Matrix> const &layers);
 
 	//vector storing matrices (3D volume of matrices)
@@ -19,7 +20,7 @@ public:
 	virtual int getHeight() const;
 	virtual int getWidth() const;
 	virtual void addLayer(Matrix layer);
-	void init_random_values();
+	void init_random_values(int low, int high);
 	virtual Matrix getLayer(int index) const;
 	virtual Matrix convolution(Tensor filter, int stride, int bias);
 protected:

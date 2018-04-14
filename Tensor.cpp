@@ -1,4 +1,5 @@
 #include <vector>
+#include <ctime>
 #include "Tensor.h"
 
 using namespace std;
@@ -10,6 +11,14 @@ Tensor::Tensor(int height, int width)
 	this->height = height;
 	this->width = width;
 	this->depth = 0;
+	this->layers = vector<Matrix> (depth);
+}
+
+Tensor::Tensor(int height, int width, int depth)
+{
+	this->height = height;
+	this->width = width;
+	this->depth = depth;
 	this->layers = vector<Matrix> (depth);
 }
 
@@ -47,15 +56,23 @@ Matrix Tensor::getLayer(int index) const
 	return layers[index];
 }
 
-void Tensor::init_random_values()
+void Tensor::init_random_values(int low, int high)
 {
-	for (int i=0; i<depth; i++){
+    for (int i=0; i<depth; i++){
+		vector<vector<double>> layer;
+        srand(time(0));
 		for (int y=0; y<height; y++){
+	        vector<double> rows;
 			for (int x=0; x<width; x++){
-				layers[i].setIndexValue(y, x, (rand() % 1 - 1));
+			    double temp = low + (rand() % (high - low + 1));
+                rows.push_back(temp);
 			}
+			layer.push_back(rows);
 		}
+		layers[i] = layer;
 	}
+
+	cout << layers.size() << endl;
 }
 
 Matrix Tensor::convolution(Tensor filter, int stride, int bias)

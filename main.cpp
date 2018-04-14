@@ -2,6 +2,7 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
+#include <iterator>
 #include "Matrix.h"
 #include "Tensor.h"
 
@@ -36,11 +37,16 @@ int main(int argc, char* argv[])
 	kernel_1.addLayer(createMatrixFromFile("layers/W0/2_filter_3X3"));
 	kernel_1.addLayer(createMatrixFromFile("layers/W0/3_filter_3X3"));
 
-	//Tensor kernel_2 = Tensor(3, 3);
-	//kernel_2.init_random_values();
+	Tensor kernel_2 = Tensor(3, 3, 3);
+	kernel_2.init_random_values(-1, 1);
+
+    for (int i=0; i<kernel_2.getDepth();i++){
+        cout << "test" << endl;
+        kernel_2.layers[i].print();
+    }
 
 	Matrix activation_map = conv_layer_1.convolution(kernel_1, 2, 1);
-	activation_map.print();
+	//activation_map.print();
 	cout << "done" << endl;
 	return 0;
 }	

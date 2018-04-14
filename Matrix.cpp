@@ -33,9 +33,10 @@ int Matrix::getIndexValue(int i, int j) const
 	return matrix[i][j];
 }
 
-void Matrix::setIndexValue(int i, int j, int value) 
+void Matrix::setIndexValue(int i, int j, double value)
 {
 	matrix[i][j] = value;
+
 }
 
 void Matrix::checkIfEqual(Matrix &other) const
