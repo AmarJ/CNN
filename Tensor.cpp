@@ -71,8 +71,6 @@ void Tensor::init_random_values(int low, int high)
 		}
 		layers[i] = layer;
 	}
-
-	cout << layers.size() << endl;
 }
 
 Matrix Tensor::convolution(Tensor filter, int stride, int bias)

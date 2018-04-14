@@ -5,6 +5,7 @@
 #include <iterator>
 #include "Matrix.h"
 #include "Tensor.h"
+#include "Image.h"
 
 using namespace std;
 
@@ -23,30 +24,41 @@ Matrix createMatrixFromFile(string filename)
 	}
 
 	return Matrix(matrix);	
-}	
+}
 
-int main(int argc, char* argv[])
+Matrix createMatrixFromImage(string filename)
 {
-	Tensor conv_layer_1 = Tensor(7, 7);
-	conv_layer_1.addLayer(createMatrixFromFile("layers/1_input_layer_7X7"));
-	conv_layer_1.addLayer(createMatrixFromFile("layers/2_input_layer_7X7"));
-	conv_layer_1.addLayer(createMatrixFromFile("layers/3_input_layer_7X7"));
+	vector<vector<double> > matrix;
+	ifstream inputFile(filename);
+	string temp;
+	
+	while (getline(inputFile, temp)) {
+		istringstream buffer(temp);
+		
+		vector<double> line{istream_iterator<double>(buffer), istream_iterator<double>()};
+		
+		matrix.push_back(line);
+	}
 
-	Tensor kernel_1 = Tensor(3, 3);
-	kernel_1.addLayer(createMatrixFromFile("layers/W0/1_filter_3X3"));
-	kernel_1.addLayer(createMatrixFromFile("layers/W0/2_filter_3X3"));
-	kernel_1.addLayer(createMatrixFromFile("layers/W0/3_filter_3X3"));
+	return Matrix(matrix);	
+}
 
-	Tensor kernel_2 = Tensor(3, 3, 3);
-	kernel_2.init_random_values(-1, 1);
+int main(int argc, char* argv[]) {
 
-    for (int i=0; i<kernel_2.getDepth();i++){
-        cout << "test" << endl;
-        kernel_2.layers[i].print();
-    }
+    Tensor conv_layer_1 = Tensor(7, 7);
+    conv_layer_1.addLayer(createMatrixFromFile("layers/1_input_layer_7X7"));
+    conv_layer_1.addLayer(createMatrixFromFile("layers/2_input_layer_7X7"));
+    conv_layer_1.addLayer(createMatrixFromFile("layers/3_input_layer_7X7"));
 
-	Matrix activation_map = conv_layer_1.convolution(kernel_1, 2, 1);
-	//activation_map.print();
-	cout << "done" << endl;
-	return 0;
+    Tensor kernel_1 = Tensor(3, 3, 3);
+    kernel_1.init_random_values(-1, 1);
+
+    Matrix activation_map = conv_layer_1.convolution(kernel_1, 2, 1);
+
+	MImage img("trainingData/training/0/2854.png");
+	img.write("output.bmp");
+
+    cout << "done." << endl;
+
+    return 0;
 }	
