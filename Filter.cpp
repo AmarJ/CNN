@@ -15,3 +15,6 @@ Filter::Filter(int height, int width, int depth)
 
 void Filter::init_random_values()
 {
+
+}
+
