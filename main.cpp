@@ -45,17 +45,17 @@ Matrix createMatrixFromImage(string filename)
 
 int main(int argc, char* argv[]) {
 
-    Tensor conv_layer_1 = Tensor(7, 7);
-    conv_layer_1.addLayer(createMatrixFromFile("layers/1_input_layer_7X7"));
-    conv_layer_1.addLayer(createMatrixFromFile("layers/2_input_layer_7X7"));
-    conv_layer_1.addLayer(createMatrixFromFile("layers/3_input_layer_7X7"));
-
-    Tensor kernel_1 = Tensor(3, 3, 3);
+    Tensor conv_layer_1 = Tensor(32, 32);
+    conv_layer_1.addLayer(createMatrixFromFile("layers/input_layer_32X32"));
+    conv_layer_1.addLayer(createMatrixFromFile("layers/input_layer_32X32"));
+    conv_layer_1.addLayer(createMatrixFromFile("layers/input_layer_32X32"));
+/*
+    Tensor kernel_1 = Tensor(5, 5, 6);
     kernel_1.init_random_values(-1, 1);
 
-    Matrix activation_map = conv_layer_1.convolution(kernel_1, 2, 1);
-
+    Matrix activation_map = conv_layer_1.convolution(kernel_1, 1, 0);
+	activation_map.print();
+*/
     cout << "done." << endl;
-
     return 0;
 }	
