@@ -5,7 +5,7 @@
 #include <iterator>
 #include "Matrix.h"
 #include "Tensor.h"
-#include "Image.h"
+#include <jpeglib.h>
 
 using namespace std;
 
@@ -54,9 +54,6 @@ int main(int argc, char* argv[]) {
     kernel_1.init_random_values(-1, 1);
 
     Matrix activation_map = conv_layer_1.convolution(kernel_1, 2, 1);
-
-	MImage img("trainingData/training/0/2854.png");
-	img.write("output.bmp");
 
     cout << "done." << endl;
 
