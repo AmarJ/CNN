@@ -58,6 +58,7 @@ Matrix Tensor::getLayer(int index) const
 
 void Tensor::init_random_values(int low, int high)
 {
+	cout << "AMAR_depth: " << depth << endl;
     for (int i=0; i<depth; i++){
 		vector<vector<double>> layer;
         srand(time(0));
@@ -69,6 +70,8 @@ void Tensor::init_random_values(int low, int high)
 			}
 			layer.push_back(rows);
 		}
+		//Matrix temp = Matrix(layer);
+		//temp.print();
 		layers[i] = layer;
 	}
 }
