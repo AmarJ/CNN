@@ -3,7 +3,7 @@ CXXFLAGS=-g -std=c++11 -Wall -pedantic
 
 BIN=run
 
-SRC=$(wildcard *.cpp)
+SRC=$(wildcard src/*.cpp)
 OBJ=$(SRC:%.cpp=%.o)
 
 all: $(OBJ)
