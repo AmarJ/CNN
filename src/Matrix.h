@@ -3,6 +3,8 @@
 
 #include <vector>
 #include <iostream>
+#include <stdexcept>
+#include "Utility.h"
 
 class Matrix
 {

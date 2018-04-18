@@ -51,14 +51,9 @@ int main(int argc, char* argv[]) {
 	
     Tensor kernel_1 = Tensor(5, 5, 6);
     kernel_1.init_random_values(-1, 1);
-	
-	for (int i=0; i<kernel_1.getDepth(); i++){
-		cout << "------------------------------------------------" << endl;
-		kernel_1.getLayer(i).print();
-	}
-
-   Matrix activation_map = conv_layer_1.convolution(kernel_1, 1, 0);
-//	activation_map.print();
+ 
+  	Matrix activation_map = conv_layer_1.convolution(kernel_1, 1, 0);
+	activation_map.print();
     cout << "done." << endl;
     return 0;
 }	

@@ -1,5 +1,6 @@
 #include <vector>
 #include <ctime>
+#include <stdexcept>
 #include "Tensor.h"
 
 using namespace std;
@@ -59,9 +60,9 @@ Matrix Tensor::getLayer(int index) const
 void Tensor::init_random_values(int low, int high)
 {
 	cout << "AMAR_depth: " << depth << endl;
+    srand(time(0));
     for (int i=0; i<depth; i++){
 		vector<vector<double>> layer;
-        srand(time(0));
 		for (int y=0; y<height; y++){
 	        vector<double> rows;
 			for (int x=0; x<width; x++){

@@ -1,4 +1,5 @@
 #include "Matrix.h"
+#include "Utility.h"
 
 using namespace std;
 
@@ -77,7 +78,7 @@ Matrix Matrix::filter_slide(Matrix filter, int stride, int bias)
 {
 	int F = filter.getWidth();
 	int output_size = (((width-F)/stride)+1);
-	
+
 	//checking if output Matrix will have size greater than 1
 	if (output_size < 1)
 		throw logic_error("Invalid: Output matrix size 0.");
@@ -85,18 +86,18 @@ Matrix Matrix::filter_slide(Matrix filter, int stride, int bias)
 	vector<vector<double>> output_layer;
 
 	//goes through matrix and performs dot product on small local regions 
-	for (int i=0; i<height && i+stride<height; i+=stride){
-		
+	for (int i=0; i<=height-F; i+=stride){
 		vector<double> row_output_layer;
-		for (int j=0; j<width && j+stride<width; j+=stride){
+		for (int j=0; j<=width-F; j+=stride){
 
 			vector<vector<double>> local_region;
 			//disgusting I know... creates a local region
-			for (int y=i; y<i+F; y++){
+			for (int y=i; y<(i+F); y++){
 				vector<double> row_local_region;
-				for (int x=j; x<j+F; x++){
+				for (int x=j; x<(j+F); x++){
 					//gets row of local region
 					row_local_region.push_back(matrix[y][x]); 
+					
 				}
 				//adds row of local region to local_region matrix
 				local_region.push_back(row_local_region);
@@ -108,16 +109,10 @@ Matrix Matrix::filter_slide(Matrix filter, int stride, int bias)
 		output_layer.push_back(row_output_layer);
 	}
 	Matrix output = Matrix(output_layer);
-	
 	return output;
 }
 
 void Matrix::print() const
 {
-	for (int i = 0; i < height; i++){
-    	for (int j = 0; j < width; j++){
-        	cout << matrix[i][j] << ' ';
-    	}
-		cout << endl;
-	}
+	Utility::printVec(matrix);
 }
