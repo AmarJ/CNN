@@ -1,5 +1,6 @@
 #include "Matrix.h"
 #include "Utility.h"
+#include <cmath>
 
 using namespace std;
 
@@ -36,10 +37,17 @@ int Matrix::getIndexValue(int i, int j) const
 
 void Matrix::checkIfEqual(Matrix &other) const
 {
-	if (height != other.getHeight())
+	if (height != other.getHeight()){
+		cout << height << endl;
+		cout << other.getHeight() << endl;
 		throw logic_error("Heights of matrices are not the same.");
-	if (width != other.getWidth())
+	}
+	
+	if (width != other.getWidth()){
+		cout << width << endl;
+		cout << other.getWidth() << endl;
 		throw logic_error("Width of matrices are not the same.");
+	}
 }
 
 int Matrix::dotProduct(Matrix &other) const
@@ -77,7 +85,10 @@ void Matrix::add(Matrix other)
 Matrix Matrix::filter_slide(Matrix filter, int stride, int bias)
 {
 	int F = filter.getWidth();
-	int output_size = (((width-F)/stride)+1);
+	float f_W = (float)width;
+	float f_F = (float)F;
+	float f_S = (float)stride;
+	int output_size = ceil((f_W-f_F)/f_S)+1;
 
 	//checking if output Matrix will have size greater than 1
 	if (output_size < 1)
@@ -96,8 +107,7 @@ Matrix Matrix::filter_slide(Matrix filter, int stride, int bias)
 				vector<double> row_local_region;
 				for (int x=j; x<(j+F); x++){
 					//gets row of local region
-					row_local_region.push_back(matrix[y][x]); 
-					
+					row_local_region.push_back(matrix[y][x]); 	
 				}
 				//adds row of local region to local_region matrix
 				local_region.push_back(row_local_region);
@@ -105,7 +115,7 @@ Matrix Matrix::filter_slide(Matrix filter, int stride, int bias)
 			//adds dot product of local region and filter to row of output  
 			row_output_layer.push_back( Matrix(local_region).dotProduct(filter) );
 		}
-		//adds row of output to output layer matrix
+		//adds row of output to output matrix
 		output_layer.push_back(row_output_layer);
 	}
 	Matrix output = Matrix(output_layer);

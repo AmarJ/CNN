@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <iterator>
+#include <jpeglib.h> /*** http://libjpeg.sourceforge.net/ ***/
 #include "Matrix.h"
 #include "Tensor.h"
 
@@ -44,16 +45,16 @@ Matrix createMatrixFromImage(string filename)
 
 int main(int argc, char* argv[]) {
 
-    Tensor conv_layer_1 = Tensor(32, 32);
-    conv_layer_1.addLayer(createMatrixFromFile("layers/input_layer_32X32"));
-    conv_layer_1.addLayer(createMatrixFromFile("layers/input_layer_32X32"));
-    conv_layer_1.addLayer(createMatrixFromFile("layers/input_layer_32X32"));
+    Tensor conv_layer_1 = Tensor(227, 227);
+    conv_layer_1.addLayer(createMatrixFromFile("layers/input_layer_227X227"));
+    conv_layer_1.addLayer(createMatrixFromFile("layers/input_layer_227X227"));
+    conv_layer_1.addLayer(createMatrixFromFile("layers/input_layer_227X227"));
 	
-    Tensor kernel_1 = Tensor(5, 5, 6);
+    Tensor kernel_1 = Tensor(11, 11, 3);
     kernel_1.init_random_values(-1, 1);
  
-  	Matrix activation_map = conv_layer_1.convolution(kernel_1, 1, 0);
+  	Matrix activation_map = conv_layer_1.convolution(kernel_1, 4, 1);
 	activation_map.print();
-    cout << "done." << endl;
+    cout << activation_map.getHeight() << " " << activation_map.getWidth() << " done." << endl;
     return 0;
 }	

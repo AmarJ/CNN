@@ -2,6 +2,7 @@
 #include <ctime>
 #include <stdexcept>
 #include "Tensor.h"
+#include <cmath>
 
 using namespace std;
 
@@ -80,7 +81,11 @@ void Tensor::init_random_values(int low, int high)
 Matrix Tensor::convolution(Tensor filter, int stride, int bias)
 {
 	int F = filter.getWidth();
-	int output_size = (((width-F)/stride)+1);
+	float f_W = (float)width;
+	float f_F = (float)F;
+	float f_S = (float)stride;
+	int output_size = ceil((f_W-f_F)/f_S)+1;
+
 	
 	if (output_size < 1)
         throw logic_error("Invalid: Output matrix size 0.");	
