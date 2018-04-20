@@ -16,13 +16,13 @@ public:
 	//vector storing matrices (3D volume of matrices)
 	std::vector<Matrix> layers;
 
-	virtual int getDepth() const;
-	virtual int getHeight() const;
-	virtual int getWidth() const;
-	virtual void addLayer(Matrix layer);
+	int getDepth() const;
+	int getHeight() const;
+	int getWidth() const;
+	void addLayer(Matrix layer);
 	void init_random_values(int low, int high);
-	virtual Matrix getLayer(int index) const;
-	virtual Matrix convolution(Tensor filter, int stride, int bias);
+	Matrix getLayer(int index) const;
+	Matrix convolution(Tensor filter, int stride, int bias);
 protected:
 	int height;
 	int width;
