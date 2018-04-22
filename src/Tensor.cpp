@@ -1,8 +1,9 @@
 #include <vector>
 #include <ctime>
 #include <stdexcept>
-#include "Tensor.h"
 #include <cmath>
+#include "Filters.h"
+#include "Tensor.h"
 
 using namespace std;
 
@@ -60,7 +61,6 @@ Matrix Tensor::getLayer(int index) const
 
 void Tensor::init_random_values(int low, int high)
 {
-	cout << "AMAR_depth: " << depth << endl;
     srand(time(0));
     for (int i=0; i<depth; i++){
 		vector<vector<double>> layer;
@@ -72,33 +72,37 @@ void Tensor::init_random_values(int low, int high)
 			}
 			layer.push_back(rows);
 		}
-		//Matrix temp = Matrix(layer);
-		//temp.print();
 		layers[i] = layer;
 	}
 }
 
-Matrix Tensor::convolution(Tensor filter, int stride, int bias)
+Tensor Tensor::convolution(Filters setOfFilters, int stride, int bias)
 {
-	int F = filter.getWidth();
+	int F = setOfFilters.getWidth();
 	float f_W = (float)width;
 	float f_F = (float)F;
 	float f_S = (float)stride;
 	int output_size = ceil((f_W-f_F)/f_S)+1;
-
 	
 	if (output_size < 1)
-        throw logic_error("Invalid: Output matrix size 0.");	
+		throw logic_error("Invalid: Output matrix size 0.");	
+	
+	Tensor outputVolume = Tensor(output_size, output_size);
+	
+	for (int filterNumber=0; filterNumber<setOfFilters.getNumberOfFilters(); filterNumber++) {	
 
-	//temporarily doing addition of blank matrix in first iteration -- will fix later
-	Matrix result = Matrix(output_size, output_size);
-	for (int i=0; i<depth; i++){
-		result.add(layers[i].filter_slide(filter.getLayer(i), stride, bias));
+		//temporarily doing addition of blank matrix in first iteration -- will fix later
+		Matrix result = Matrix(output_size, output_size);
+		for (int i=0; i<depth; i++){
+			result.add(layers[i].filter_slide(setOfFilters.getFilter(filterNumber).getLayer(i), stride, bias));
+		}
+
+		if (bias > 0) {
+			vector<vector<double>> bias_filter(output_size, vector<double>(output_size, bias));
+			result.add(bias_filter);
+		}
+		outputVolume.addLayer(result);				
 	}
 
-	if (bias > 0) {
-		vector<vector<double>> bias_filter(output_size, vector<double>(output_size, bias));
-		result.add(bias_filter);
-	}
-	return result;
+	return outputVolume;
 }

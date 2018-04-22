@@ -5,6 +5,8 @@
 #include <iostream>
 #include "Tensor.h"
 
+class Tensor;
+
 class Filters
 {
 public: 
@@ -13,7 +15,11 @@ public:
 
 	std::vector<Tensor> filters;
 
-	Tensor getFilter(int index) ;
+	int getDepth() const;
+    int getHeight() const;
+ 	int getWidth() const;
+	Tensor getFilter(int index);
+	int getNumberOfFilters() const; 
 protected:
 	int height;
 	int width;

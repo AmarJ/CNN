@@ -1,9 +1,12 @@
-#ifndef DEF_VOLUME
-#define DEF_VOLUME
+#ifndef DEF_TENSOR
+#define DEF_TENSOR
 
 #include <vector>
 #include <iostream>
 #include "Matrix.h"
+#include "Filters.h"
+
+class Filters;
 
 class Tensor
 {
@@ -22,7 +25,7 @@ public:
 	void addLayer(Matrix layer);
 	void init_random_values(int low, int high);
 	Matrix getLayer(int index) const;
-	Matrix convolution(Tensor filter, int stride, int bias);
+	Tensor convolution(Filters setOfFilters, int stride, int bias);
 protected:
 	int height;
 	int width;
