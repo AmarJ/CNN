@@ -21,10 +21,12 @@ public:
 	int getHeight() const;
 	int getWidth() const;
 	int dotProduct(Matrix &other) const;
+	int getMax() const;
 	void checkIfEqual(Matrix &other) const;
 	void add(Matrix other);
 	void print() const;
 	Matrix filter_slide(Matrix filter, int stride, int bias);
+	Matrix max_pool(int H, int F, int stride, int bias);
 private:
 	int height;
 	int width;

@@ -65,6 +65,20 @@ int Matrix::dotProduct(Matrix &other) const
 	return product;
 }
 
+int Matrix::getMax() const
+{	
+	int max = 0;
+
+	for (int i=0; i<height; i++){
+		for (int j=0; j<width; j++){
+			if (matrix[i][j] > max)
+				max = matrix[i][j];
+		}
+	}
+
+	return max;
+}
+
 void Matrix::add(Matrix other)
 {
 	checkIfEqual(other);
@@ -114,6 +128,47 @@ Matrix Matrix::filter_slide(Matrix filter, int stride, int bias)
 			}
 			//adds dot product of local region and filter to row of output  
 			row_output_layer.push_back( Matrix(local_region).dotProduct(filter) );
+		}
+		//adds row of output to output matrix
+		output_layer.push_back(row_output_layer);
+	}
+	Matrix output = Matrix(output_layer);
+	return output;
+}
+
+Matrix Matrix::max_pool(int H, int F, int stride, int bias)
+{
+	//for now H isn't use since the filters are always squares... keeping it here for later
+	
+	float f_W = (float)width;
+	float f_F = (float)F;
+	float f_S = (float)stride;
+	int output_size = ceil((f_W-f_F)/f_S)+1;
+
+	//checking if output Matrix will have size greater than 1
+	if (output_size < 1)
+		throw logic_error("Invalid: Output matrix size 0.");
+	
+	vector<vector<double>> output_layer;
+
+	//goes through matrix and performs max pool on small local regions 
+	for (int i=0; i<=height-F; i+=stride){
+		vector<double> row_output_layer;
+		for (int j=0; j<=width-F; j+=stride){
+
+			vector<vector<double>> local_region;
+			//creates a local region
+			for (int y=i; y<(i+F); y++){
+				vector<double> row_local_region;
+				for (int x=j; x<(j+F); x++){
+					//gets row of local region
+					row_local_region.push_back(matrix[y][x]); 	
+				}
+				//adds row of local region to local_region matrix
+				local_region.push_back(row_local_region);
+			}
+			//max pool on local region  
+			row_output_layer.push_back(Matrix(local_region).getMax());
 		}
 		//adds row of output to output matrix
 		output_layer.push_back(row_output_layer);

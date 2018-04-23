@@ -3,7 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <iterator>
-#include <jpeglib.h> /*** http://libjpeg.sourceforge.net/ ***/
+//#include <jpeglib.h> /*** http://libjpeg.sourceforge.net/ ***/
 #include "Matrix.h"
 #include "Tensor.h"
 #include "Filters.h"
@@ -11,23 +11,6 @@
 using namespace std;
 
 Matrix createMatrixFromFile(string filename)
-{
-	vector<vector<double> > matrix;
-	ifstream inputFile(filename);
-	string temp;
-	
-	while (getline(inputFile, temp)) {
-		istringstream buffer(temp);
-		
-		vector<double> line{istream_iterator<double>(buffer), istream_iterator<double>()};
-		
-		matrix.push_back(line);
-	}
-
-	return Matrix(matrix);	
-}
-
-Matrix createMatrixFromImage(string filename)
 {
 	vector<vector<double> > matrix;
 	ifstream inputFile(filename);
