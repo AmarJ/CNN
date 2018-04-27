@@ -96,7 +96,7 @@ void Matrix::add(Matrix other)
 	matrix = result;
 }
 
-Matrix Matrix::filter_slide(Matrix filter, int stride, int bias)
+Matrix Matrix::filterSlide(Matrix filter, int stride, int bias)
 {
 	int F = filter.getWidth();
 	float f_W = (float)width;
@@ -136,9 +136,9 @@ Matrix Matrix::filter_slide(Matrix filter, int stride, int bias)
 	return output;
 }
 
-Matrix Matrix::max_pool(int H, int F, int stride, int bias)
+Matrix Matrix::maxSlide(int H, int F, int stride, int bias)
 {
-	//for now H isn't use since the filters are always squares... keeping it here for later
+	//for now H isn't use since the filters are always squares... keeping it here for now... if I want to do rectangular stuff
 	
 	float f_W = (float)width;
 	float f_F = (float)F;

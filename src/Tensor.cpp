@@ -94,7 +94,7 @@ Tensor Tensor::convolution(Filters setOfFilters, int stride, int bias)
 		//temporarily doing addition of blank matrix in first iteration -- will fix later
 		Matrix result = Matrix(output_size, output_size);
 		for (int i=0; i<depth; i++){
-			result.add(layers[i].filter_slide(setOfFilters.getFilter(filterNumber).getLayer(i), stride, bias));
+			result.add(layers[i].filterSlide(setOfFilters.getFilter(filterNumber).getLayer(i), stride, bias));
 		}
 
 		if (bias > 0) {
@@ -106,3 +106,34 @@ Tensor Tensor::convolution(Filters setOfFilters, int stride, int bias)
 
 	return outputVolume;
 }
+
+Tensor Tensor::maxPool(int pool_filter_height, int pool_filter_width, int stride, int bias)
+{
+	float f_W = (float)width;
+	float f_P = (float)pool_filter_width;
+	float f_S = (float)stride;
+	int pool_output_size = ceil((f_W-f_P)/f_S)+1;
+	
+	if (pool_output_size < 1)
+		throw logic_error("Invalid: Output matrix size 0.");	
+	
+	Tensor output_volume = Tensor(pool_output_size, pool_output_size);
+	
+	for (int filter_number=0; filter_number<depth; filter_number++) {	
+
+		//temporarily doing addition of blank matrix in first iteration -- will fix later
+		Matrix result = Matrix(pool_output_size, pool_output_size);
+		for (int i=0; i<depth; i++){
+			result.add(layers[i].maxSlide(pool_filter_height, pool_filter_width, stride, bias));
+		}
+
+		if (bias > 0) {
+			vector<vector<double>> bias_filter(pool_output_size, vector<double>(pool_output_size, bias));
+			result.add(bias_filter);
+		}
+		output_volume.addLayer(result);
+	}
+
+	return output_volume;
+}
+
