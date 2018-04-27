@@ -118,21 +118,19 @@ Tensor Tensor::maxPool(int pool_filter_height, int pool_filter_width, int stride
 		throw logic_error("Invalid: Output matrix size 0.");	
 	
 	Tensor output_volume = Tensor(pool_output_size, pool_output_size);
-	
-	for (int filter_number=0; filter_number<depth; filter_number++) {	
 
-		//temporarily doing addition of blank matrix in first iteration -- will fix later
-		Matrix result = Matrix(pool_output_size, pool_output_size);
-		for (int i=0; i<depth; i++){
-			result.add(layers[i].maxSlide(pool_filter_height, pool_filter_width, stride, bias));
-		}
+    for (int i=0; i<depth; i++){
+        Matrix result = Matrix(pool_output_size, pool_output_size);
 
-		if (bias > 0) {
-			vector<vector<double>> bias_filter(pool_output_size, vector<double>(pool_output_size, bias));
-			result.add(bias_filter);
-		}
-		output_volume.addLayer(result);
-	}
+        result = layers[i].maxSlide(pool_filter_height, pool_filter_width, stride, bias);
+
+        output_volume.addLayer(result);
+
+        if (bias > 0) {
+            vector<vector<double>> bias_filter(pool_output_size, vector<double>(pool_output_size, bias));
+            result.add(bias_filter);
+        }
+    }
 
 	return output_volume;
 }
