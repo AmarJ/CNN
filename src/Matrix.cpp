@@ -153,9 +153,9 @@ Matrix Matrix::maxSlide(int H, int F, int stride, int bias)
 
 	//goes through matrix and performs max pool on small local regions 
 	for (int i=0; i<=height-F; i+=stride){
-		vector<double> row_output_layer;
-		for (int j=0; j<=width-F; j+=stride){
+	    vector<double> row_output_layer;
 
+		for (int j=0; j<=width-F; j+=stride){
 			vector<vector<double>> local_region;
 			//creates a local region
 			for (int y=i; y<(i+F); y++){

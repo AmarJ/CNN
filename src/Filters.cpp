@@ -15,7 +15,7 @@ Filters::Filters(int height, int width, int depth, int numberOfFilters)
 	//inits Filters with random digits
 	for (int i=0; i<filters.size(); i++){
 		filters[i] = Tensor(height, width, depth);
-		filters[i].init_random_values(-1,1);
+		filters[i].randomValueInit(-1, 1);
 	}
 }
 

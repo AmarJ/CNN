@@ -23,10 +23,10 @@ public:
 	int getHeight() const;
 	int getWidth() const;
 	void addLayer(Matrix layer);
-	void init_random_values(int low, int high);
+	void randomValueInit(int low, int high);
 	Matrix getLayer(int index) const;
-	Tensor convolution(Filters setOfFilters, int stride, int bias);
-	Tensor maxPool(int pool_filter_height, int pool_filter_width, int stride, int bias);
+	Tensor fwdConv(Filters setOfFilters, int stride, int bias);
+	Tensor fwdMaxPool(int pool_filter_height, int pool_filter_width, int stride, int bias);
 protected:
 	int height;
 	int width;

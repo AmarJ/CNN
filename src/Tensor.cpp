@@ -59,7 +59,7 @@ Matrix Tensor::getLayer(int index) const
 	return layers[index];
 }
 
-void Tensor::init_random_values(int low, int high)
+void Tensor::randomValueInit(int low, int high)
 {
     srand(time(0));
     for (int i=0; i<depth; i++){
@@ -76,7 +76,7 @@ void Tensor::init_random_values(int low, int high)
 	}
 }
 
-Tensor Tensor::convolution(Filters setOfFilters, int stride, int bias)
+Tensor Tensor::fwdConv(Filters setOfFilters, int stride, int bias)
 {
 	int F = setOfFilters.getWidth();
 	float f_W = (float)width;
@@ -107,7 +107,7 @@ Tensor Tensor::convolution(Filters setOfFilters, int stride, int bias)
 	return outputVolume;
 }
 
-Tensor Tensor::maxPool(int pool_filter_height, int pool_filter_width, int stride, int bias)
+Tensor Tensor::fwdMaxPool(int pool_filter_height, int pool_filter_width, int stride, int bias)
 {
 	float f_W = (float)width;
 	float f_P = (float)pool_filter_width;
@@ -121,7 +121,6 @@ Tensor Tensor::maxPool(int pool_filter_height, int pool_filter_width, int stride
 
     for (int i=0; i<depth; i++){
         Matrix result = Matrix(pool_output_size, pool_output_size);
-
         result = layers[i].maxSlide(pool_filter_height, pool_filter_width, stride, bias);
 
         output_volume.addLayer(result);
