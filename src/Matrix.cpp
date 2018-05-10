@@ -10,14 +10,40 @@ Matrix::Matrix(int height, int width)
 {
 	this->height = height;
 	this->width = width;
+	this->padding = 0;
 	this->matrix = vector<vector<double>> (height, vector<double>(width));
+}
+
+Matrix::Matrix(int height, int width, int padding)
+{
+    this->height = height;
+    this->width = width;
+    this->padding = padding;
+    this->matrix = vector<vector<double>> (height, vector<double>(width));
+
+    if (padding > 0) {
+        padMatrix();
+    }
 }
 
 Matrix::Matrix(vector<vector<double>> const &matrix)
 {
 	this->height = matrix.size();
 	this->width = matrix[0].size();
+	this->padding = 0;
 	this->matrix = matrix;
+}
+
+Matrix::Matrix(vector<vector<double>> const &matrix, int padding)
+{
+    this->height = matrix.size();
+    this->width = matrix[0].size();
+    this->padding = padding;
+    this->matrix = matrix;
+
+    if (padding > 0) {
+        padMatrix();
+    }
 }
 
 int Matrix::getHeight() const
@@ -33,6 +59,17 @@ int Matrix::getWidth() const
 int Matrix::getIndexValue(int i, int j) const
 {
 	return matrix[i][j];
+}
+
+void Matrix::padMatrix()
+{
+    vector<vector<double>> padded_matrix(height+(2*padding), vector<double>(width+(2*padding), 0));
+
+    for (int i=padding; i<padded_matrix.size()-padding; i++){
+        for (int j=padding; j<padded_matrix[i].size()-padding; j++){
+            padded_matrix[i][j] = getIndexValue(i-padding, j-padding);
+        }
+    }
 }
 
 void Matrix::checkIfEqual(Matrix &other) const

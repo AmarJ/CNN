@@ -11,7 +11,9 @@ class Matrix
 public:
 	Matrix();
 	Matrix(int height, int width);
-	Matrix(std::vector<std::vector<double>> const &array);	
+    Matrix(int height, int width, int padding);
+	Matrix(std::vector<std::vector<double>> const &array);
+    Matrix(std::vector<std::vector<double>> const &array, int padding);
 	
 	//2D vector stores matrix
 	std::vector<std::vector<double>> matrix;
@@ -30,6 +32,8 @@ public:
 private:
 	int height;
 	int width;
+	int padding;
+	void padMatrix();
 };
 
 #endif 

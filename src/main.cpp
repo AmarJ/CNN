@@ -10,7 +10,7 @@
 
 using namespace std;
 
-Matrix createMatrixFromFile(string filename)
+Matrix createMatrixFromFile(string filename, int padding)
 {
 	vector<vector<double> > matrix;
 	ifstream inputFile(filename);
@@ -24,7 +24,7 @@ Matrix createMatrixFromFile(string filename)
 		matrix.push_back(line);
 	}
 
-	return Matrix(matrix);
+	return Matrix(matrix, padding);
 }
 
 int main(int argc, char* argv[]) {
@@ -34,9 +34,9 @@ int main(int argc, char* argv[]) {
 
 	// 227x227x3 input layer -> 3 channels RGB from an image (for now I just made up values to test)
     Tensor conv_layer_1 = Tensor(227, 227);
-    conv_layer_1.addLayer(createMatrixFromFile("layers/input_layer_227X227"));
-    conv_layer_1.addLayer(createMatrixFromFile("layers/input_layer_227X227"));
-    conv_layer_1.addLayer(createMatrixFromFile("layers/input_layer_227X227"));
+    conv_layer_1.addLayer(createMatrixFromFile("layers/input_layer_227X227", 0));
+    conv_layer_1.addLayer(createMatrixFromFile("layers/input_layer_227X227", 0));
+    conv_layer_1.addLayer(createMatrixFromFile("layers/input_layer_227X227", 0));
 
 	// 7x7x3 input layer
 	//Tensor conv_layer_1 = Tensor(7, 7);
