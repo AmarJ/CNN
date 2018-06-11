@@ -2,39 +2,23 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
-//#include <jpeglib.h> /*** http://libjpeg.sourceforge.net/ ***/
+#include <iterator>
+#include <time.h>
 #include "Matrix.h"
 #include "Tensor.h"
 #include "Filters.h"
+#include "Utility.h"
 
 using namespace std;
-
-//used for tests to create a matrix out of a file for first layer of CNN
-Matrix createMatrixFromFile(string filename, int padding)
-{
-	vector<vector<double> > matrix;
-	ifstream inputFile(filename);
-	string temp;
-	
-	while (getline(inputFile, temp)) {
-		istringstream buffer(temp);
-		
-		vector<double> line{istream_iterator<double>(buffer), istream_iterator<double>()};
-		
-		matrix.push_back(line);
-	}
-
-	return Matrix(matrix, padding);
-}
 
 //Testing convolution on 7x7x3 Tensor with 16 filters: 3x3x3 and stride 2
 void test_7x7_Conv() {
 
     // 7x7x3 input layer
     Tensor conv_layer_1 = Tensor(7, 7);
-    conv_layer_1.addLayer(createMatrixFromFile("layers/1_input_layer_7X7", 0));
-    conv_layer_1.addLayer(createMatrixFromFile("layers/2_input_layer_7X7", 0));
-    conv_layer_1.addLayer(createMatrixFromFile("layers/3_input_layer_7X7", 0));
+    conv_layer_1.addLayer(Utility::createMatrixFromFile("layers/1_input_layer_7X7", 0));
+    conv_layer_1.addLayer(Utility::createMatrixFromFile("layers/2_input_layer_7X7", 0));
+    conv_layer_1.addLayer(Utility::createMatrixFromFile("layers/3_input_layer_7X7", 0));
 
     // 3x3x3 x 48 filters
     Filters kernel_1 = Filters(3, 3, 3, 16);
@@ -65,9 +49,9 @@ void test_7x7_MaxPool() {
 
     // 7x7x3 input layer
     Tensor conv_layer_1 = Tensor(7, 7);
-    conv_layer_1.addLayer(createMatrixFromFile("layers/1_input_layer_7X7", 0));
-    conv_layer_1.addLayer(createMatrixFromFile("layers/2_input_layer_7X7", 0));
-    conv_layer_1.addLayer(createMatrixFromFile("layers/3_input_layer_7X7", 0));
+    conv_layer_1.addLayer(Utility::createMatrixFromFile("layers/1_input_layer_7X7", 0));
+    conv_layer_1.addLayer(Utility::createMatrixFromFile("layers/2_input_layer_7X7", 0));
+    conv_layer_1.addLayer(Utility::createMatrixFromFile("layers/3_input_layer_7X7", 0));
 
     // 3x3x3 x 48 filters
     Filters kernel_1 = Filters(3, 3, 3, 16);
@@ -91,9 +75,9 @@ void test_7x7_Conv_MaxPool() {
 
 	// 7x7x3 input layer
 	Tensor conv_layer_1 = Tensor(7, 7);
-	conv_layer_1.addLayer(createMatrixFromFile("layers/1_input_layer_7X7", 0));
-	conv_layer_1.addLayer(createMatrixFromFile("layers/2_input_layer_7X7", 0));
-	conv_layer_1.addLayer(createMatrixFromFile("layers/3_input_layer_7X7", 0));
+	conv_layer_1.addLayer(Utility::createMatrixFromFile("layers/1_input_layer_7X7", 0));
+	conv_layer_1.addLayer(Utility::createMatrixFromFile("layers/2_input_layer_7X7", 0));
+	conv_layer_1.addLayer(Utility::createMatrixFromFile("layers/3_input_layer_7X7", 0));
 
 	// 3x3x3 x 48 filters
 	Filters kernel_1 = Filters(3, 3, 3, 16);
@@ -118,9 +102,9 @@ void test_227x227_Conv_MaxPool() {
 
     // 227x227x3 input layer -> 3 channels RGB from an image (for now I just made up values to test)
     Tensor conv_layer_1 = Tensor(227, 227);
-    conv_layer_1.addLayer(createMatrixFromFile("layers/input_layer_227X227", 0));
-    conv_layer_1.addLayer(createMatrixFromFile("layers/input_layer_227X227", 0));
-    conv_layer_1.addLayer(createMatrixFromFile("layers/input_layer_227X227", 0));
+    conv_layer_1.addLayer(Utility::createMatrixFromFile("layers/input_layer_227X227", 0));
+    conv_layer_1.addLayer(Utility::createMatrixFromFile("layers/input_layer_227X227", 0));
+    conv_layer_1.addLayer(Utility::createMatrixFromFile("layers/input_layer_227X227", 0));
 
     // 11x11x3 x 48 filters
     Filters kernel_1 = Filters(11, 11, 3, 16);
@@ -128,7 +112,7 @@ void test_227x227_Conv_MaxPool() {
     cout << "______test_227x227_Conv_MaxPool Test Start____________\n" << endl;
     cout << "---- Test [Fwd Convolution] ----" << endl;
     Tensor conv_layer_2 = conv_layer_1.fwdConv(kernel_1, 4, 0);
-    cout << "[\nInput volume]: 227x227x3 --> Convolution (filter: 11x11x16 * 16 @ stride=2) --> [Output volume]: "
+    cout << "\n[Input volume]: 227x227x3 --> Convolution (filter: 11x11x16 * 16 @ stride=2) --> [Output volume]: "
          << conv_layer_2.getHeight() << "x"
          << conv_layer_2.getWidth() << "x"
          << conv_layer_2.getDepth() << endl;
@@ -146,6 +130,6 @@ int main(int argc, char* argv[]) {
     test_7x7_Conv();
     test_7x7_MaxPool();
 	test_7x7_Conv_MaxPool();
-    //test_227x227_Conv_MaxPool();
+    test_227x227_Conv_MaxPool();
     return 0;
 }	
