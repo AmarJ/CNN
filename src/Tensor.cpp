@@ -61,7 +61,7 @@ Matrix Tensor::getLayer(int index) const
 
 void Tensor::randomValueInit(int low, int high)
 {
-    srand(time(0));
+
     for (int i=0; i<depth; i++){
 		vector<vector<double>> layer;
 		for (int y=0; y<height; y++){
@@ -89,8 +89,7 @@ Tensor Tensor::fwdConv(Filters setOfFilters, int stride, int bias)
 	
 	Tensor outputVolume = Tensor(output_size, output_size);
 	
-	for (int filterNumber=0; filterNumber<setOfFilters.getNumberOfFilters(); filterNumber++) {	
-
+	for (int filterNumber=0; filterNumber<setOfFilters.getNumberOfFilters(); filterNumber++) {
 		//temporarily doing addition of blank matrix in first iteration -- will fix later
 		Matrix result = Matrix(output_size, output_size);
 		for (int i=0; i<depth; i++){
@@ -101,6 +100,8 @@ Tensor Tensor::fwdConv(Filters setOfFilters, int stride, int bias)
 			vector<vector<double>> bias_filter(output_size, vector<double>(output_size, bias));
 			result.add(bias_filter);
 		}
+
+		cout << "Convolution->[Tensor layer]: " << filterNumber << endl;
 
 		outputVolume.addLayer(result);				
 	}
