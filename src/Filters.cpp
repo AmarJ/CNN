@@ -21,7 +21,7 @@ Filters::Filters(int height, int width, int depth, int numberOfFilters)
 
 int Filters::getNumberOfFilters() const
 {
-	return depth;
+	return filters.size();
 }
 
 Tensor Filters::getFilter(int index)

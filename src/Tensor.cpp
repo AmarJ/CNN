@@ -101,6 +101,7 @@ Tensor Tensor::fwdConv(Filters setOfFilters, int stride, int bias)
 			vector<vector<double>> bias_filter(output_size, vector<double>(output_size, bias));
 			result.add(bias_filter);
 		}
+
 		outputVolume.addLayer(result);				
 	}
 
