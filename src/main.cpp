@@ -9,6 +9,7 @@
 
 using namespace std;
 
+//used for tests to create a matrix out of a file for first layer of CNN
 Matrix createMatrixFromFile(string filename, int padding)
 {
 	vector<vector<double> > matrix;
@@ -26,6 +27,7 @@ Matrix createMatrixFromFile(string filename, int padding)
 	return Matrix(matrix, padding);
 }
 
+//Testing convolution on 7x7x3 Tensor with 16 filters: 3x3x3 and stride 2
 void test_7x7_Conv() {
 
     // 7x7x3 input layer
@@ -58,6 +60,7 @@ void test_7x7_Conv() {
     cout << "\n___________________Test End_________________________\n" << endl;
 }
 
+//Testing max pool on 3x3x16 Tensor with stride 2
 void test_7x7_MaxPool() {
 
     // 7x7x3 input layer
